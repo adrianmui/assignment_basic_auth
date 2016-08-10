@@ -33,6 +33,20 @@ class ApplicationController < ActionController::Base
     session.delete(:user_id)
   end
 
+  def require_login
+    unless signed_in_user?
+      flash[:error] = "Not authorized, please sign in!"
+      redirect_to login_path  
+    end
+  end
+
+  def require_current_user
+    unless params[:id] == current_user.id.to_s
+      flash[:error] = "You're not authorized to view this"
+      redirect_to root_url
+    end
+  end
+
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end

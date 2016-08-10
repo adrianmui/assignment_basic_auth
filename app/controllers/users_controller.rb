@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
-  #before_action :signed_in_user?, only: [:edit, :update, :destroy]
+  before_action :require_login, :except => [:index, :new, :create]
+  before_action :require_current_user, :only => [:edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -56,6 +57,7 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user = User.find(params[:id])
+    #this only logouts the user if the current user is being destroyed
     if @user == current_user
       @user.destroy
       sign_out
