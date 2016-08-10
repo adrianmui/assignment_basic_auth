@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
   #     username == 'admin' && password == 'password'
   #   end
   # end
+
   def authenticate_user
     authenticate_or_request_with_http_digest do |username|
       USERS[username]
@@ -31,5 +32,17 @@ class ApplicationController < ActionController::Base
     @current_user = nil
     session.delete(:user_id)
   end
+
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+
+  helper_method :current_user
+
+  def signed_in_user?
+    !!current_user
+  end
+
+  helper_method :signed_in_user?
 
 end
