@@ -4,10 +4,12 @@ class ApplicationController < ActionController::Base
   #                              :password => 'bar',
   #                              :only => [:update, :create]
   
+  USERS = {"admin" => "password"}
 
   before_action :authenticate_user, only: [:create, :update, :destroy]
  
   #skip_filter :authenticate_user, :only => :show
+  
 
   private
 
@@ -16,4 +18,10 @@ class ApplicationController < ActionController::Base
       username == 'admin' && password == 'password'
     end
   end
+  # def authenticate_user
+  #   authenticate_or_request_with_http_digest do |username|
+  #     USERS[username]
+  #   end
+  # end
+
 end
