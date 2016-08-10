@@ -12,7 +12,10 @@
   puts "Creating new userzz"
 
   10.times do |i|
-    User.create(username: Faker::Name.name, email: Faker::Internet.email, password_digest: Faker::Internet.password(5))
+    User.create(
+      username: Faker::Internet.user_name, 
+      email: Faker::Internet.email, 
+      password_digest: Faker::Internet.password(5))
   end
 
   puts "Finished creating userszz"
